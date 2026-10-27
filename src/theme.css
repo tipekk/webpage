@@ -1,0 +1,79 @@
+/* Load after style.css and responsive.css. System theme works without JavaScript. */
+:root {
+  color-scheme: light;
+  --theme-accent-text: #b74b00;
+  --accent-text: #b74b00;
+  --on-accent: #252626;
+  --theme-hover: #ad4f00;
+  --theme-about: var(--blue);
+  --theme-about-ink: #f5f1e8;
+  --theme-art-ink: #252626;
+  --theme-lens: #e8e3d9;
+  --control-bg: var(--surface);
+  --control-border: var(--ink);
+  --language-active-bg: var(--orange);
+  --language-active-fg: var(--on-accent);
+  --language-inactive-fg: var(--ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #242523;
+    --surface: #30322f;
+    --ink: #f5f1e8;
+    --muted: #bcbcb3;
+    --line: #65665e;
+    --orange: #ff7900;
+    --blue: #68a9af;
+    --theme-accent-text: #ff913d;
+    --accent-text: #ff913d;
+    --theme-hover: #ffab6b;
+    --theme-about: var(--blue);
+    --theme-about-ink: #f5f1e8;
+    --theme-lens: #30322f;
+    --control-bg: #181817;
+    --control-border: #3b3c38;
+    --language-active-bg: #4a2d1d;
+    --language-active-fg: #ff7900;
+    --language-inactive-fg: #f5f1e8;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #242523;
+  --surface: #30322f;
+  --ink: #f5f1e8;
+  --muted: #bcbcb3;
+  --line: #65665e;
+  --orange: #ff7900;
+  --blue: #68a9af;
+  --theme-accent-text: #ff913d;
+  --accent-text: #ff913d;
+  --theme-hover: #ffab6b;
+  --theme-about: var(--blue);
+  --theme-about-ink: #f5f1e8;
+  --theme-lens: #30322f;
+  --control-bg: #181817;
+  --control-border: #3b3c38;
+  --language-active-bg: #4a2d1d;
+  --language-active-fg: #ff7900;
+  --language-inactive-fg: #f5f1e8;
+}
+h1 em { color: var(--theme-accent-text); }
+nav a:hover, footer > a:last-child:hover, .button:hover { color: var(--theme-hover); }
+.about { background: var(--theme-about); }
+.signal, .project-art { color: var(--theme-art-ink); }
+.round-link:hover { color: var(--theme-art-ink); }
+.lens-art { background: var(--theme-lens); }
+.lens-art div {
+  box-shadow: 0 0 0 24px var(--theme-lens), 0 0 0 25px var(--blue),
+    0 0 0 55px var(--theme-lens), 0 0 0 56px var(--blue);
+}
+.theme-toggle { display: grid; place-items: center; flex: none; width: 52px; height: 52px; padding: 0; border: 1px solid var(--control-border); border-radius: 50%; background: var(--control-bg); color: var(--ink); cursor: pointer; }
+.theme-toggle[hidden] { display: none; }
+.theme-toggle:hover { border-color: var(--muted); }
+.theme-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.theme-toggle svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.theme-sun { display: none; }
+.theme-toggle[data-current="dark"] .theme-moon { display: none; }
+.theme-toggle[data-current="dark"] .theme-sun { display: block; }

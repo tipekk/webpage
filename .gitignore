@@ -1,0 +1,10 @@
+dist/
+node_modules/
+.DS_Store
+.env
+.env.*
+
+# Local handoff notes and private source material.
+docs/agents/
+ZNALOSTI_A_KOMPETENCIE.md
+REALIZOVANE_PROJEKTY_A_PORTFOLIO.md
