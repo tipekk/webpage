@@ -1,6 +1,6 @@
-# Príprava nasadenia hlavného webu
+# Nasadenie hlavného webu
 
-Stav: zdrojový projekt je lokálne pripravený na kontrolu pred prvým GitHub pushom; remote, Cloudflare projekt, deploy ani DNS zmena zatiaľ nie sú nakonfigurované.
+Stav: web je nasadený. Zdroj je vo verejnom repozitári `tipekk/webpage`, produkčný Cloudflare Pages projekt je `caco-webpage` a hlavná doména je `https://caco.space`.
 
 ## Aktuálne statické cesty
 
@@ -15,11 +15,17 @@ Build generuje tieto cesty do `dist/`, overuje jazykové páry a platné intern�
 
 Interné agentové zápisy, osobné zdrojové podklady, pracovné prototypy, lokálne fotografie a `dist/` sú zámerne mimo Git. Produkčný repozitár obsahuje iba aktívny zdroj, verejnú dokumentáciu a používaný social thumbnail.
 
-## Budúca fáza Cloudflare Pages
+## Produkčné nasadenie
 
-1. Vytvoriť Pages projekt pripojený na vetvu `main`, s build príkazom `npm run build` a výstupom `dist`.
-2. Overiť automaticky pridelenú Pages adresu a celý web na nej, bez zmeny `caco.space`.
-3. Získať zoznam všetkých URL starej stránky a pre každú potvrdiť cieľ alebo vedomé 404. Až potom zapísať presmerovania do `src/_redirects`.
-4. Po výslovnom schválení pripojiť `caco.space` a prípadne `www.caco.space`; `www` má mať jeden kanonický cieľ. DNS a redirect pravidlá aktivovať až po úspešnom preview.
+- Build príkaz: `npm run build`
+- Výstup: `dist`
+- Pages projekt: `caco-webpage`
+- Pages adresa: `https://caco-webpage.pages.dev`
+- Produkcia: `https://caco.space`
+- `https://www.caco.space` presmeruje na kanonické `https://caco.space/`.
+
+Projekt bol vytvorený ako klasický Cloudflare Pages projekt a aktuálny build bol odoslaný cez Wrangler. GitHub je zdroj kódu; automatické nasadenie z vetvy `main` zatiaľ nie je nakonfigurované. Pri ďalšej publikácii najprv pushnúť overený commit a potom nasadiť jeho `dist` do projektu `caco-webpage`.
+
+Po prepnutí boli overené HTTP 200, bezpečnostné hlavičky a nový SK/EN obsah na hlavnej doméne. Starý Pages projekt `caco-space` zostal zachovaný bez vlastnej domény.
 
 Samostatné obsahové stránky zostávajú cestami hlavnej domény. Ďalšie vlastné subdomény majú zmysel iba pre samostatné aplikácie alebo služby a vyžadujú samostatné rozhodnutie, DNS záznam a test presmerovania.
