@@ -40,6 +40,68 @@
       event.preventDefault();
       location.href = `${link.href.split('#')[0]}#${encodeURIComponent(anchor)}`;
     }));
+    document.querySelectorAll('[data-rack]').forEach(rack => {
+      const units = [...rack.querySelectorAll('[data-rack-unit]')];
+      const panel = rack.querySelector('.rack-info-panel');
+      const name = rack.querySelector('[data-rack-detail-name]');
+      const type = rack.querySelector('[data-rack-detail-type]');
+      const description = rack.querySelector('[data-rack-detail-description]');
+      const moreButton = rack.querySelector('[data-rack-more]');
+      const moreText = rack.querySelector('[data-rack-detail-more]');
+      const tags = rack.querySelector('[data-rack-detail-tags]');
+      const dot = rack.querySelector('[data-rack-detail-dot]');
+      const statusText = rack.querySelector('[data-rack-detail-status]');
+      if (!panel || !moreButton || !moreText) return;
+      let pinned = null;
+      const collapseMore = () => {
+        moreText.dataset.open = 'false';
+        moreButton.setAttribute('aria-expanded', 'false');
+        moreButton.textContent = rack.dataset.moreLabel;
+      };
+      const fill = unit => {
+        panel.dataset.filled = 'true';
+        name.textContent = unit.dataset.name;
+        type.textContent = unit.dataset.type;
+        description.textContent = unit.dataset.description;
+        moreText.textContent = unit.dataset.detail;
+        dot.dataset.status = unit.dataset.status;
+        statusText.textContent = unit.dataset.status === 'online' ? rack.dataset.onlineLabel : rack.dataset.offlineLabel;
+        tags.replaceChildren(...(unit.dataset.tags || '').split('|').filter(Boolean).map(label => {
+          const item = document.createElement('li');
+          item.textContent = label;
+          return item;
+        }));
+        collapseMore();
+      };
+      const setExpanded = (unit, expanded) => unit.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      units.forEach(unit => {
+        unit.addEventListener('mouseenter', () => { if (!pinned) fill(unit); });
+        unit.addEventListener('focus', () => { if (!pinned || pinned === unit) fill(unit); });
+        unit.addEventListener('click', () => {
+          if (pinned === unit) {
+            pinned = null;
+            setExpanded(unit, false);
+            return;
+          }
+          if (pinned) setExpanded(pinned, false);
+          pinned = unit;
+          setExpanded(unit, true);
+          fill(unit);
+        });
+      });
+      moreButton.addEventListener('click', () => {
+        const open = moreText.dataset.open === 'true';
+        moreText.dataset.open = open ? 'false' : 'true';
+        moreButton.setAttribute('aria-expanded', open ? 'false' : 'true');
+        moreButton.textContent = open ? rack.dataset.moreLabel : rack.dataset.lessLabel;
+      });
+      if (window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
+        const rackObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+          entry.target.classList.toggle('is-rack-revealed', entry.isIntersecting);
+        }), { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+        units.forEach(unit => rackObserver.observe(unit));
+      }
+    });
     const cvItems = [...document.querySelectorAll('.cv-timeline-item')];
     if (cvItems.length) {
       let scheduled = false;
